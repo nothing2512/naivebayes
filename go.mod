@@ -1,4 +1,4 @@
-module naivebayes
+module github.com/nothing2512/naivebayes
 
 go 1.21.4
 
