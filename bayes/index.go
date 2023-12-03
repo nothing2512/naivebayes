@@ -637,8 +637,37 @@ func (*NaiveBayes) getTree(models map[string][]string, b *NaiveBayes) Json {
 	data := Json{}
 	for _, branch := range models[root] {
 		branchData := b.Filter(root, branch)
+
 		if len(branchData.body) == 0 {
-			data[branch] = "<LAST>"
+			_c := ""
+			for c := range b.class {
+				_c = c
+				break
+			}
+			data[fmt.Sprintf("%v=?", branch)] = _c
+			continue
+		}
+
+		bodySame := true
+		for k, v := range branchData.body {
+			for kk := range v {
+				breaked := false
+				if b.body[k][kk] != v[kk] {
+					bodySame = false
+					breaked = true
+					break
+				}
+				if breaked {
+					break
+				}
+			}
+		}
+		if bodySame {
+			var bodySameData []string
+			for c := range b.class {
+				bodySameData = append(bodySameData, c)
+			}
+			data[fmt.Sprintf("%v=?", branch)] = fmt.Sprintf("%v=%v", b.classifier, strings.Join(bodySameData, "|"))
 			continue
 		}
 
@@ -650,11 +679,11 @@ func (*NaiveBayes) getTree(models map[string][]string, b *NaiveBayes) Json {
 			}
 		}
 		if isSame {
-			data[branch] = fmt.Sprintf("%v=%v", b.classifier, cData)
+			data[fmt.Sprintf("%v=?", branch)] = fmt.Sprintf("%v=%v", b.classifier, cData)
 			continue
 		}
 
-		data[branch] = b.getTree(models, branchData)
+		data[fmt.Sprintf("%v=?", branch)] = b.getTree(models, branchData)
 	}
 	return Json{root: data}
 }
