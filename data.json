@@ -1,0 +1,29 @@
+{
+    "texture": {
+        "b": "ripe=f",
+        "c": {
+            "root": {
+                "c": "ripe=t",
+                "s": "ripe=f",
+                "sc": {
+                    "color": {
+                        "d": {
+                            "surface": {
+                                "h": "ripe=t",
+                                "s": "ripe=f"
+                            }
+                        },
+                        "g": "ripe=t",
+                        "l": "\u003cLAST\u003e"
+                    }
+                }
+            }
+        },
+        "sb": {
+            "surface": {
+                "h": "ripe=f",
+                "s": "ripe=t"
+            }
+        }
+    }
+}
